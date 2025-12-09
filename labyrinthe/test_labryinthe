@@ -1,0 +1,36 @@
+#!/bin/bash
+
+echo "============================"
+echo " TEST 1 : Génération séquentielle"
+echo "============================"
+./gen_lab
+echo ""
+read -p "Appuyez sur ENTREE pour continuer..."
+
+echo "============================"
+echo " TEST 2 : Résolution du chemin"
+echo "============================"
+# Génération automatique si le fichier .lab n'existe pas
+if [ ! -f labyrinthe.lab ]; then
+    echo "Fichier labyrinthe.lab introuvable, génération automatique..."
+    ./gen_lab
+fi
+
+./chemin_lab labyrinthe.lab
+echo ""
+read -p "Appuyez sur ENTREE pour continuer..."
+
+echo "============================"
+echo " TEST 3 : Génération parallèle (2 processus MPI)"
+echo "============================"
+mpiexec -n 2 ./gen_lab-parallel
+echo ""
+read -p "Appuyez sur ENTREE pour continuer..."
+
+echo "============================"
+echo " TEST 4 : Génération parallèle (4 processus MPI)"
+echo "============================"
+mpiexec --oversubscribe -n 4 ./gen_lab-parallel
+echo ""
+read -p "Appuyez sur ENTREE pour terminer."
+
